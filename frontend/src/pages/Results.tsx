@@ -1,4 +1,4 @@
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 
 import Card from "../components/ui/Card";
 import Button from "../components/ui/Button";
@@ -7,22 +7,41 @@ import MetricCard from "../components/cards/MetricCard";
 
 export default function Results() {
   const navigate = useNavigate();
+  const location = useLocation();
 
-  const bestOption = {
-    ambulance: "A-12",
-    hospital: "Apollo Jubilee Hills",
-    eta: "6 min",
-    beds: "3 Available",
-    route: "NH44 → Road 36",
-  };
+  const data: any = location.state;
 
-  const secondOption = {
-    ambulance: "A-08",
-    hospital: "Yashoda Somajiguda",
-    eta: "9 min",
-    beds: "5 Available",
-    route: "Road 45 → Punjagutta",
-  };
+  // If someone opens /results directly
+  if (!data) {
+    return (
+      <div
+        style={{
+          minHeight: "100vh",
+          background: "#050816",
+          color: "#F3F4F6",
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "center",
+          fontFamily: "Inter, sans-serif",
+        }}
+      >
+        <Card width="420px">
+          <h2>No Dispatch Data</h2>
+          <p style={{ color: "#9CA3AF", marginBottom: "20px" }}>
+            Please analyze an emergency first.
+          </p>
+
+          <Button onClick={() => navigate("/dispatch")}>
+            Go to Dispatcher
+          </Button>
+        </Card>
+      </div>
+    );
+  }
+
+  const bestOption = data.best_option;
+  const secondOption = data.second_option;
+  const benchmark = data.benchmark;
 
   return (
     <div
@@ -62,7 +81,7 @@ export default function Results() {
         </div>
       </div>
 
-      {/* Content */}
+      {/* Main Content */}
       <div
         style={{
           maxWidth: "1200px",
@@ -73,8 +92,7 @@ export default function Results() {
         <h1 style={{ marginTop: 0 }}>Dispatch Results</h1>
 
         <p style={{ color: "#9CA3AF", marginBottom: "32px" }}>
-          Best emergency response recommendation based on simulated dispatch
-          analysis.
+          Best emergency response recommendation based on dispatch analysis.
         </p>
 
         {/* Recommendation Cards */}
@@ -91,7 +109,7 @@ export default function Results() {
             ambulance={bestOption.ambulance}
             hospital={bestOption.hospital}
             eta={bestOption.eta}
-            beds={bestOption.beds}
+            beds={`${bestOption.beds} Available`}
             route={bestOption.route}
           />
 
@@ -100,7 +118,7 @@ export default function Results() {
             ambulance={secondOption.ambulance}
             hospital={secondOption.hospital}
             eta={secondOption.eta}
-            beds={secondOption.beds}
+            beds={`${secondOption.beds} Available`}
             route={secondOption.route}
           />
         </div>
@@ -119,11 +137,19 @@ export default function Results() {
                 gap: "20px",
               }}
             >
-              <MetricCard label="CPU Time" value="8.6 ms" />
-              <MetricCard label="GPU Time" value="1.2 ms" />
+              <MetricCard
+                label="CPU Time"
+                value={`${benchmark.cpu_ms} ms`}
+              />
+
+              <MetricCard
+                label="GPU Time"
+                value={`${benchmark.gpu_ms} ms`}
+              />
+
               <MetricCard
                 label="Speedup"
-                value="7.2× Faster"
+                value={`${benchmark.speedup}× Faster`}
                 success
               />
             </div>

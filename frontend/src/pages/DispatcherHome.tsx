@@ -4,6 +4,7 @@ import { useNavigate } from "react-router-dom";
 import Button from "../components/ui/Button";
 import Input from "../components/ui/Input";
 import Card from "../components/ui/Card";
+import { analyzeDispatch } from "../services/api";
 
 export default function DispatcherHome() {
   const navigate = useNavigate();
@@ -13,9 +14,23 @@ export default function DispatcherHome() {
   const [severity, setSeverity] = useState("High");
   const [patients, setPatients] = useState(1);
 
-  const handleAnalyze = () => {
-    navigate("/results");
-  };
+const handleAnalyze = async () => {
+  try {
+    const result = await analyzeDispatch({
+      location,
+      emergency_type: emergencyType,
+      severity,
+      patients,
+    });
+
+    navigate("/results", {
+      state: result,
+    });
+  } catch (error) {
+    alert("Backend connection failed");
+    console.error(error);
+  }
+};
 
   return (
     <div
