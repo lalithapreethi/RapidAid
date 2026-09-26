@@ -1,6 +1,10 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 
+import Button from "../components/ui/Button";
+import Input from "../components/ui/Input";
+import Card from "../components/ui/Card";
+
 export default function DispatcherHome() {
   const navigate = useNavigate();
 
@@ -59,39 +63,37 @@ export default function DispatcherHome() {
           padding: "48px 24px",
         }}
       >
-        <div
-          style={{
-            width: "700px",
-            background: "#111827",
-            border: "1px solid #1F2937",
-            borderRadius: "24px",
-            padding: "32px",
-          }}
-        >
+        <Card width="700px">
           <h1 style={{ marginTop: 0 }}>Emergency Details</h1>
+
           <p style={{ color: "#9CA3AF", marginBottom: "32px" }}>
             Enter the incident information to analyze the best ambulance and
             hospital.
           </p>
 
-          {/* Location */}
-          <div style={{ marginBottom: "20px" }}>
-            <label>Incident Location</label>
-            <input
-              value={location}
-              onChange={(e) => setLocation(e.target.value)}
-              placeholder="Banjara Hills, Hyderabad"
-              style={inputStyle}
-            />
-          </div>
+          <Input
+            label="Incident Location"
+            placeholder="Banjara Hills, Hyderabad"
+            value={location}
+            onChange={setLocation}
+          />
 
           {/* Emergency Type */}
           <div style={{ marginBottom: "20px" }}>
-            <label>Emergency Type</label>
+            <label
+              style={{
+                display: "block",
+                marginBottom: "8px",
+                fontWeight: 500,
+              }}
+            >
+              Emergency Type
+            </label>
+
             <select
               value={emergencyType}
               onChange={(e) => setEmergencyType(e.target.value)}
-              style={inputStyle}
+              style={selectStyle}
             >
               <option>Road Accident</option>
               <option>Cardiac Arrest</option>
@@ -102,11 +104,20 @@ export default function DispatcherHome() {
 
           {/* Severity */}
           <div style={{ marginBottom: "20px" }}>
-            <label>Severity</label>
+            <label
+              style={{
+                display: "block",
+                marginBottom: "8px",
+                fontWeight: 500,
+              }}
+            >
+              Severity
+            </label>
+
             <select
               value={severity}
               onChange={(e) => setSeverity(e.target.value)}
-              style={inputStyle}
+              style={selectStyle}
             >
               <option>High</option>
               <option>Medium</option>
@@ -114,45 +125,29 @@ export default function DispatcherHome() {
             </select>
           </div>
 
-          {/* Patients */}
-          <div style={{ marginBottom: "28px" }}>
-            <label>Number of Patients</label>
-            <input
-              type="number"
-              min={1}
-              value={patients}
-              onChange={(e) => setPatients(Number(e.target.value))}
-              style={inputStyle}
-            />
-          </div>
+          <Input
+            label="Number of Patients"
+            type="number"
+            value={patients}
+            onChange={(value) => setPatients(Number(value))}
+          />
 
-          <button onClick={handleAnalyze} style={buttonStyle}>
+          <Button onClick={handleAnalyze}>
             Analyze & Find Best Option
-          </button>
-        </div>
+          </Button>
+        </Card>
       </div>
     </div>
   );
 }
 
-const inputStyle = {
+const selectStyle = {
   width: "100%",
-  marginTop: "8px",
   padding: "14px",
   borderRadius: "12px",
   border: "1px solid #374151",
   background: "#0B1020",
   color: "#F3F4F6",
   boxSizing: "border-box" as const,
-};
-
-const buttonStyle = {
-  width: "100%",
-  padding: "16px",
-  borderRadius: "14px",
-  border: "none",
-  background: "#6C63FF",
-  color: "white",
-  fontWeight: 600,
-  cursor: "pointer",
+  fontSize: "15px",
 };

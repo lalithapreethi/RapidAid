@@ -1,6 +1,9 @@
-
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
+
+import Button from "../components/ui/Button";
+import Input from "../components/ui/Input";
+import Card from "../components/ui/Card";
 
 export default function Login() {
   const navigate = useNavigate();
@@ -24,16 +27,14 @@ export default function Login() {
         color: "#F3F4F6",
       }}
     >
-      <div
-        style={{
-          width: "380px",
-          background: "#111827",
-          border: "1px solid #1F2937",
-          borderRadius: "24px",
-          padding: "32px",
-        }}
-      >
-        <p style={{ color: "#6C63FF", marginBottom: "8px", fontWeight: 600 }}>
+      <Card width="380px">
+        <p
+          style={{
+            color: "#6C63FF",
+            marginBottom: "8px",
+            fontWeight: 600,
+          }}
+        >
           RapidAid
         </p>
 
@@ -45,66 +46,23 @@ export default function Login() {
           Smart Emergency Dispatch Platform
         </p>
 
-        <div style={{ marginBottom: "16px" }}>
-          <label style={{ display: "block", marginBottom: "8px" }}>
-            Employee ID
-          </label>
-          <input
-            type="text"
-            value={employeeId}
-            onChange={(e) => setEmployeeId(e.target.value)}
-            placeholder="EMP1024"
-            style={{
-              width: "100%",
-              padding: "14px",
-              borderRadius: "12px",
-              border: "1px solid #374151",
-              background: "#0B1020",
-              color: "white",
-              outline: "none",
-              boxSizing: "border-box",
-            }}
-          />
-        </div>
+        <Input
+          label="Employee ID"
+          placeholder="EMP1024"
+          value={employeeId}
+          onChange={setEmployeeId}
+        />
 
-        <div style={{ marginBottom: "24px" }}>
-          <label style={{ display: "block", marginBottom: "8px" }}>
-            Password
-          </label>
-          <input
-            type="password"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-            placeholder="••••••••"
-            style={{
-              width: "100%",
-              padding: "14px",
-              borderRadius: "12px",
-              border: "1px solid #374151",
-              background: "#0B1020",
-              color: "white",
-              outline: "none",
-              boxSizing: "border-box",
-            }}
-          />
-        </div>
+        <Input
+          label="Password"
+          type="password"
+          placeholder="••••••••"
+          value={password}
+          onChange={setPassword}
+        />
 
-        <button
-          onClick={handleLogin}
-          style={{
-            width: "100%",
-            padding: "14px",
-            border: "none",
-            borderRadius: "14px",
-            background: "#6C63FF",
-            color: "white",
-            fontWeight: 600,
-            cursor: "pointer",
-          }}
-        >
-          Continue
-        </button>
-      </div>
+        <Button onClick={handleLogin}>Continue</Button>
+      </Card>
     </div>
   );
 }
