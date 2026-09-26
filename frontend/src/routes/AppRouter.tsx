@@ -13,5 +13,5 @@ export default function AppRouter() {
         <Route path="/results" element={<Results />} />
       </Routes>
     </BrowserRouter>
-  );
+    );
 }
