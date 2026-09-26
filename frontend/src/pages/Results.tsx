@@ -1,5 +1,9 @@
-
 import { useNavigate } from "react-router-dom";
+
+import Card from "../components/ui/Card";
+import Button from "../components/ui/Button";
+import RecommendationCard from "../components/cards/RecommendationCard";
+import MetricCard from "../components/cards/MetricCard";
 
 export default function Results() {
   const navigate = useNavigate();
@@ -59,14 +63,21 @@ export default function Results() {
       </div>
 
       {/* Content */}
-      <div style={{ padding: "40px", maxWidth: "1200px", margin: "0 auto" }}>
+      <div
+        style={{
+          maxWidth: "1200px",
+          margin: "0 auto",
+          padding: "40px 24px",
+        }}
+      >
         <h1 style={{ marginTop: 0 }}>Dispatch Results</h1>
+
         <p style={{ color: "#9CA3AF", marginBottom: "32px" }}>
           Best emergency response recommendation based on simulated dispatch
           analysis.
         </p>
 
-        {/* Two Recommendation Cards */}
+        {/* Recommendation Cards */}
         <div
           style={{
             display: "grid",
@@ -74,9 +85,9 @@ export default function Results() {
             gap: "24px",
           }}
         >
-          <ResultCard
+          <RecommendationCard
             title="Best Option"
-            highlight
+            recommended
             ambulance={bestOption.ambulance}
             hospital={bestOption.hospital}
             eta={bestOption.eta}
@@ -84,7 +95,7 @@ export default function Results() {
             route={bestOption.route}
           />
 
-          <ResultCard
+          <RecommendationCard
             title="Second Option"
             ambulance={secondOption.ambulance}
             hospital={secondOption.hospital}
@@ -95,135 +106,39 @@ export default function Results() {
         </div>
 
         {/* Benchmark */}
-        <div
-          style={{
-            marginTop: "32px",
-            background: "#111827",
-            border: "1px solid #1F2937",
-            borderRadius: "20px",
-            padding: "24px",
-          }}
-        >
-          <h3 style={{ marginTop: 0 }}>CPU vs GPU Benchmark</h3>
+        <div style={{ marginTop: "32px" }}>
+          <Card>
+            <h2 style={{ marginTop: 0, marginBottom: "24px" }}>
+              CPU vs GPU Benchmark
+            </h2>
 
-          <div
-            style={{
-              display: "grid",
-              gridTemplateColumns: "repeat(3,1fr)",
-              gap: "20px",
-              marginTop: "20px",
-            }}
-          >
-            <Metric label="CPU Time" value="8.6 ms" />
-            <Metric label="GPU Time" value="1.2 ms" />
-            <Metric label="Speedup" value="7.2× Faster" success />
-          </div>
+            <div
+              style={{
+                display: "grid",
+                gridTemplateColumns: "repeat(3,1fr)",
+                gap: "20px",
+              }}
+            >
+              <MetricCard label="CPU Time" value="8.6 ms" />
+              <MetricCard label="GPU Time" value="1.2 ms" />
+              <MetricCard
+                label="Speedup"
+                value="7.2× Faster"
+                success
+              />
+            </div>
+          </Card>
         </div>
 
         {/* Back Button */}
-        <button
-          onClick={() => navigate("/dispatch")}
-          style={{
-            marginTop: "28px",
-            padding: "14px 24px",
-            background: "transparent",
-            border: "1px solid #374151",
-            color: "#F3F4F6",
-            borderRadius: "12px",
-            cursor: "pointer",
-          }}
-        >
-          ← Back to Dispatcher
-        </button>
-      </div>
-    </div>
-  );
-}
-
-type CardProps = {
-  title: string;
-  ambulance: string;
-  hospital: string;
-  eta: string;
-  beds: string;
-  route: string;
-  highlight?: boolean;
-};
-
-function ResultCard({
-  title,
-  ambulance,
-  hospital,
-  eta,
-  beds,
-  route,
-  highlight = false,
-}: CardProps) {
-  return (
-    <div
-      style={{
-        background: "#111827",
-        border: `1px solid ${highlight ? "#10B981" : "#1F2937"}`,
-        borderRadius: "22px",
-        padding: "24px",
-      }}
-    >
-      <div
-        style={{
-          color: highlight ? "#10B981" : "#9CA3AF",
-          fontWeight: 600,
-          marginBottom: "18px",
-        }}
-      >
-        {title}
-      </div>
-
-      <Info label="Ambulance ID" value={ambulance} />
-      <Info label="Hospital" value={hospital} />
-      <Info label="ETA" value={eta} />
-      <Info label="Trauma Beds" value={beds} />
-      <Info label="Route" value={route} />
-    </div>
-  );
-}
-
-function Info({ label, value }: { label: string; value: string }) {
-  return (
-    <div style={{ marginBottom: "14px" }}>
-      <div style={{ fontSize: "13px", color: "#9CA3AF" }}>{label}</div>
-      <div style={{ marginTop: "4px", fontWeight: 600 }}>{value}</div>
-    </div>
-  );
-}
-
-function Metric({
-  label,
-  value,
-  success = false,
-}: {
-  label: string;
-  value: string;
-  success?: boolean;
-}) {
-  return (
-    <div
-      style={{
-        background: "#0B1020",
-        borderRadius: "14px",
-        padding: "18px",
-        border: "1px solid #374151",
-      }}
-    >
-      <div style={{ color: "#9CA3AF", fontSize: "14px" }}>{label}</div>
-      <div
-        style={{
-          marginTop: "8px",
-          fontSize: "24px",
-          fontWeight: 700,
-          color: success ? "#10B981" : "#F3F4F6",
-        }}
-      >
-        {value}
+        <div style={{ marginTop: "24px", maxWidth: "220px" }}>
+          <Button
+            variant="secondary"
+            onClick={() => navigate("/dispatch")}
+          >
+            ← Back
+          </Button>
+        </div>
       </div>
     </div>
   );
